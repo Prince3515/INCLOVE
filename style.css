@@ -1,0 +1,264 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #fff0f5, #ffe4e1);
+  color: #333;
+  position: relative;
+  z-index: 0;
+}
+
+
+/* Layout */
+header,
+section,
+footer {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+header {
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #2940d3;
+  margin-bottom: 10px;
+}
+
+h2 {
+  color: #111;
+  margin-bottom: 10px;
+  font-size: 1.6rem;
+  border-left: 4px solid #2940d3;
+  padding-left: 10px;
+}
+
+p {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+/* Buttons */
+button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #2940d3;
+  color: white;
+  cursor: pointer;
+  margin: 10px;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #1f2ca3;
+  transform: scale(1.05);
+}
+
+/* Role selector section */
+section div {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.hearts-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(255, 0, 98, 0.7);
+  transform: rotate(45deg);
+  animation: floatDown 6s linear infinite;
+  border-radius: 0 50% 50% 50%;
+}
+
+.heart::before,
+.heart::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(255, 0, 98, 0.7);
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -10px;
+  left: 0;
+}
+
+.heart::after {
+  top: 0;
+  left: -10px;
+}
+
+@keyframes floatDown {
+  0% {
+    transform: translateY(-10%) rotate(45deg);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: translateY(110vh) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 15px 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar .nav-left {
+  font-weight: bold;
+  font-size: 1.4em;
+  color: #ff4d6d;
+}
+
+.navbar .nav-right a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar .nav-right a:hover {
+  color: #ff4d6d;
+}
+
+/* Main Section */
+.main-section {
+  text-align: center;
+  margin-top: 100px;
+  z-index: 1;
+  position: relative;
+}
+
+.question-box {
+  background: #fff;
+  padding: 30px;
+  margin: 40px auto;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.question-box .highlight {
+  color: #ff4d6d;
+  font-weight: bold;
+}
+
+.btn-group button {
+  margin: 10px;
+  padding: 12px 25px;
+  font-size: 16px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-group button:hover {
+  background: #e63e5d;
+}
+
+.kind-note {
+  margin-top: 20px;
+  font-style: italic;
+  color: #555;
+}
+
+/* Footer */
+footer {
+  background: #fff;
+  padding: 30px 20px;
+  text-align: center;
+  border-top: 1px solid #eee;
+  margin-top: 100px;
+}
+
+footer .social-links a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+footer .social-links a:hover {
+  color: #ff4d6d;
+}
+
+.footer-note {
+  margin-top: 10px;
+  color: #999;
+  font-size: 14px;
+}
+
+/* Floating Donate Button */
+.donate-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #ff4d6d;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+  z-index: 5;
+}
+
+.donate-btn:hover {
+  background: #e63e5d;
+}
+
+
+
+/* Footer */
+footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}

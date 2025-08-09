@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inclove – For Those Interested</title>
+    <link rel="stylesheet" href="inclove.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #ffeef0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .question-section {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .question-section.active {
+            display: flex;
+        }
+
+        .form-input {
+            margin: 10px 0;
+        }
+
+        input,
+        select,
+        textarea,
+        button {
+            padding: 10px;
+            font-size: 1rem;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        .btn-next {
+            background-color: #ff4b7d;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-next:hover {
+            background-color: #ff1c5b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="page-title">We’re Glad You're Here!</h1>
+        <p class="intro-text">Let’s get to know you step-by-step to find the best matches for you.</p>
+
+        <form id="interestedForm">
+            <!-- Question 1 -->
+            <div class="question-section active" id="q1">
+                <label for="name">What’s your name?</label>
+                <input type="text" id="name" name="name" required class="form-input">
+                <button type="button" class="btn-next" onclick="nextQuestion(1)">Next</button>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-section" id="q2">
+                <label for="age">Your age?</label>
+                <input type="number" id="age" name="age" required class="form-input">
+                <button type="button" class="btn-next" onclick="nextQuestion(2)">Next</button>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-section" id="q3">
+                <label for="gender">Your gender?</label>
+                <select id="gender" name="gender" class="form-input">
+                    <option value="">-- Select Gender --</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="nonbinary">Non-binary</option>
+                    <option value="prefer_not">Prefer not to say</option>
+                </select>
+                <button type="button" class="btn-next" onclick="nextQuestion(3)">Next</button>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question-section" id="q4">
+                <label for="intrested gender">intrested gender?</label>
+                <select id="gender" name="gender" class="form-input">
+                    <option value="">-- Select Gender --</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="nonbinary">Non-binary</option>
+                    <option value="prefer_not">Prefer not to say</option>
+                </select>
+                <button type="button" class="btn-next" onclick="nextQuestion(4)">Next</button>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question-section" id="q5">
+                <label for="preference">What kind of person are you interested in?</label>
+                <select id="preference" name="preference" class="form-input">
+                    <option value="">-- Select --</option>
+                    <option value="visually_impaired">Visually Impaired</option>
+                    <option value="hearing_impaired">Hearing Impaired</option>
+                    <option value="wheelchair_user">Wheelchair User</option>
+                    <option value="cognitive_disability">Cognitive Disability</option>
+                    <option value="anyone">Anyone</option>
+                </select>
+                <button type="button" class="btn-next" onclick="nextQuestion(5)">Next</button>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="question-section" id="q6">
+                <label for="email">Your email address?</label>
+                <input type="email" id="email" name="email" class="form-input">
+                <button type="button" class="btn-next" onclick="nextQuestion(6)">Next</button>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="question-section" id="q7">
+                <label for="about">Tell us about yourself</label>
+                <textarea id="about" name="about" rows="4" class="form-input"
+                    placeholder="Your story, hobbies, passions..."></textarea>
+                <a href="explore.html">
+                    <button type="button" class="btn-next">Continue to Personality Questions</button>
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function nextQuestion(current) {
+            document.getElementById("q" + current).classList.remove("active");
+            document.getElementById("q" + (current + 1)).classList.add("active");
+        }
+    </script>
+</body>
+
+</html>

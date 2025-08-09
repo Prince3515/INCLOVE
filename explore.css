@@ -1,0 +1,90 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(145deg, #f7f3f3, #fce4ec);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+.navbar {
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #555;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #e91e63;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #e91e63;
+}
+
+.profile-card {
+  margin-top: 3rem;
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  width: 320px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  position: relative;
+  transition: transform 0.4s ease-in-out;
+}
+
+.profile-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+}
+
+.action-buttons {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.action-buttons button {
+  font-size: 28px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+#dislikeBtn:hover {
+  color: #ff1744;
+  transform: scale(1.2);
+}
+
+#likeBtn:hover {
+  color: #4caf50;
+  transform: scale(1.2);
+}
+
+#messageBtn:hover {
+  color: #3f51b5;
+  transform: scale(1.2);
+}
