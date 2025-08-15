@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Inclove Dating</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --bg-white: #ffffff;
+            --border-light: #e2e8f0;
+            --success-color: #48bb78;
+            --warning-color: #ed8936;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .last-updated {
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        /* Navigation */
+        .nav-container {
+            background: var(--bg-white);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+
+        .table-of-contents {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .toc-item {
+            padding: 12px 16px;
+            background: var(--bg-light);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc-item:hover {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Content */
+        .content {
+            background: var(--bg-white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            scroll-margin-top: 100px;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--primary-color);
+            position: relative;
+        }
+
+        .section h2::before {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+        .section h3 {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin: 25px 0 15px 0;
+            font-weight: 600;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .section ul {
+            margin: 15px 0 15px 30px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .accessibility-note {
+            background: linear-gradient(135deg, rgba(72, 187, 120, 0.1), rgba(56, 178, 172, 0.1));
+            border-left: 4px solid var(--success-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        /* Contact section */
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .contact-method {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-method i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .table-of-contents {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Accessibility enhancements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus styles for keyboard navigation */
+        .toc-item:focus,
+        button:focus,
+        a:focus {
+            outline: 3px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --text-primary: #000000;
+                --text-secondary: #000000;
+                --border-light: #000000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">💝 Inclove</div>
+            <h1>Privacy Policy</h1>
+            <p class="last-updated">Last Updated: August 15, 2025</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-container">
+            <nav class="table-of-contents" role="navigation" aria-label="Privacy Policy Navigation">
+                <a href="#overview" class="toc-item">
+                    <i class="fas fa-eye"></i> Overview
+                </a>
+                <a href="#information-collection" class="toc-item">
+                    <i class="fas fa-database"></i> Information We Collect
+                </a>
+                <a href="#information-use" class="toc-item">
+                    <i class="fas fa-cogs"></i> How We Use Your Information
+                </a>
+                <a href="#accessibility-data" class="toc-item">
+                    <i class="fas fa-universal-access"></i> Accessibility Data
+                </a>
+                <a href="#sharing" class="toc-item">
+                    <i class="fas fa-share-alt"></i> Information Sharing
+                </a>
+                <a href="#security" class="toc-item">
+                    <i class="fas fa-shield-alt"></i> Data Security
+                </a>
+                <a href="#rights" class="toc-item">
+                    <i class="fas fa-user-check"></i> Your Rights
+                </a>
+                <a href="#contact" class="toc-item">
+                    <i class="fas fa-envelope"></i> Contact Us
+                </a>
+            </nav>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <section id="overview" class="section">
+                <h2>Overview</h2>
+                <p>At Inclove, we are committed to creating an inclusive, safe, and welcoming dating platform for everyone, with a special focus on serving the disability community. This Privacy Policy explains how we collect, use, protect, and share your personal information when you use our services.</p>
+                
+                <div class="highlight-box">
+                    <strong>Our Core Privacy Principles:</strong>
+                    <ul>
+                        <li>Transparency in all our data practices</li>
+                        <li>User control over personal information</li>
+                        <li>Strong security measures to protect your data</li>
+                        <li>Respectful handling of sensitive accessibility information</li>
+                        <li>Compliance with accessibility and privacy laws</li>
+                    </ul>
+                </div>
+
+                <p>By using Inclove, you agree to the collection and use of information in accordance with this policy. We will not use or share your information except as described in this Privacy Policy.</p>
+            </section>
+
+            <section id="information-collection" class="section">
+                <h2>Information We Collect</h2>
+                
+                <h3>Account Information</h3>
+                <p>When you create an account, we collect:</p>
+                <ul>
+                    <li>Email address and phone number</li>
+                    <li>Date of birth</li>
+                    <li>Location (city/region for matching purposes)</li>
+                    <li>Profile photos and descriptions</li>
+                    <li>Gender identity and sexual orientation</li>
+                    <li>Relationship preferences and interests</li>
+                </ul>
+
+                <h3>Communication Data</h3>
+                <p>We collect and process:</p>
+                <ul>
+                    <li>Messages exchanged on our platform</li>
+                    <li>Voice messages and video calls (if used)</li>
+                    <li>Customer support communications</li>
+                </ul>
+
+                <h3>Usage Information</h3>
+                <p>We automatically collect:</p>
+                <ul>
+                    <li>Device information (type, operating system, browser)</li>
+                    <li>Log data (IP address, access times, pages viewed)</li>
+                    <li>App usage patterns and feature interactions</li>
+                    <li>Location data (if permitted)</li>
+                </ul>
+
+                <h3>Payment Information</h3>
+                <p>For premium features, we collect payment information through secure third-party processors. We do not store complete payment card details on our servers.</p>
+            </section>
+
+            <section id="accessibility-data" class="section">
+                <h2>Accessibility and Disability-Related Information</h2>
+                
+                <div class="accessibility-note">
+                    <strong>Special Protections for Sensitive Information</strong>
+                    <p>We recognize that disability and accessibility information is highly sensitive. We implement additional safeguards and give you complete control over this data.</p>
+                </div>
+
+                <h3>What We May Collect</h3>
+                <p><strong>Only if you choose to provide it:</strong></p>
+                <ul>
+                    <li>Disability type or accessibility needs (optional)</li>
+                    <li>Assistive technology preferences</li>
+                    <li>Communication preferences (text-to-speech, sign language, etc.)</li>
+                    <li>Mobility information relevant to dating activities</li>
+                    <li>Accessibility requirements for meeting spaces</li>
+                </ul>
+
+                <h3>How We Protect This Information</h3>
+                <ul>
+                    <li><strong>Voluntary Disclosure:</strong> All accessibility information is completely optional</li>
+                    <li><strong>Granular Controls:</strong> You can choose what to share and with whom</li>
+                    <li><strong>Enhanced Security:</strong> Extra encryption for sensitive data</li>
+                    <li><strong>Limited Access:</strong> Only essential personnel can access this information</li>
+                    <li><strong>No Discrimination:</strong> This information is never used to limit your access to features</li>
+                </ul>
+
+                <h3>How We Use Accessibility Data</h3>
+                <p>When you share accessibility information, we use it to:</p>
+                <ul>
+                    <li>Improve our platform's accessibility features</li>
+                    <li>Provide better matching based on compatibility</li>
+                    <li>Suggest accessible meeting locations</li>
+                    <li>Customize the user interface for your needs</li>
+                    <li>Develop new inclusive features</li>
+                </ul>
+            </section>
+
+            <section id="information-use" class="section">
+                <h2>How We Use Your Information</h2>
+                
+                <h3>Core Service Provision</h3>
+                <ul>
+                    <li>Create and maintain your profile</li>
+                    <li>Facilitate matching with compatible users</li>
+                    <li>Enable communication between matched users</li>
+                    <li>Process payments for premium features</li>
+                    <li>Provide customer support</li>
+                </ul>
+
+                <h3>Safety and Security</h3>
+                <ul>
+                    <li>Verify user identities to prevent fraud</li>
+                    <li>Monitor for inappropriate content or behavior</li>
+                    <li>Investigate reports of abuse or harassment</li>
+                    <li>Maintain platform security and prevent unauthorized access</li>
+                </ul>
+
+                <h3>Platform Improvement</h3>
+                <ul>
+                    <li>Analyze usage patterns to improve features</li>
+                    <li>Conduct research to enhance accessibility</li>
+                    <li>Test new features and functionalities</li>
+                    <li>Generate anonymized statistics and insights</li>
+                </ul>
+
+                <h3>Legal Compliance</h3>
+                <ul>
+                    <li>Comply with applicable laws and regulations</li>
+                    <li>Respond to legal requests and court orders</li>
+                    <li>Protect our rights and the rights of our users</li>
+                </ul>
+            </section>
+
+            <section id="sharing" class="section">
+                <h2>Information Sharing</h2>
+                
+                <h3>With Other Users</h3>
+                <p>Information visible to other users includes:</p>
+                <ul>
+                    <li>Profile information you choose to display</li>
+                    <li>Photos and descriptions</li>
+                    <li>Accessibility information you opt to share</li>
+                    <li>Messages sent through our platform</li>
+                </ul>
+
+                <h3>With Service Providers</h3>
+                <p>We share limited information with trusted third parties who help us operate our service:</p>
+                <ul>
+                    <li>Cloud hosting providers (encrypted data only)</li>
+                    <li>Payment processors</li>
+                    <li>Customer support tools</li>
+                    <li>Analytics services (anonymized data only)</li>
+                </ul>
+
+                <h3>Legal Requirements</h3>
+                <p>We may disclose information when required by law or to:</p>
+                <ul>
+                    <li>Respond to legal process or government requests</li>
+                    <li>Protect the safety of our users or the public</li>
+                    <li>Investigate potential violations of our terms</li>
+                    <li>Protect our rights and property</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>What We DON'T Share:</strong>
+                    <ul>
+                        <li>We never sell your personal information to advertisers</li>
+                        <li>We don't share disability information without explicit consent</li>
+                        <li>We don't provide user lists to third parties</li>
+                        <li>We don't share private messages except as legally required</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="security" class="section">
+                <h2>Data Security</h2>
+                
+                <h3>Technical Safeguards</h3>
+                <ul>
+                    <li><strong>Encryption:</strong> All data is encrypted in transit and at rest</li>
+                    <li><strong>Secure Servers:</strong> Data stored on secured, monitored servers</li>
+                    <li><strong>Access Controls:</strong> Strict employee access limitations</li>
+                    <li><strong>Regular Audits:</strong> Ongoing security assessments and improvements</li>
+                </ul>
+
+                <h3>Operational Security</h3>
+                <ul>
+                    <li>Background checks for employees with data access</li>
+                    <li>Regular security training for all staff</li>
+                    <li>Incident response procedures</li>
+                    <li>Data backup and recovery systems</li>
+                </ul>
+
+                <h3>User Security</h3>
+                <p>You can help protect your account by:</p>
+                <ul>
+                    <li>Using a strong, unique password</li>
+                    <li>Enabling two-factor authentication</li>
+                    <li>Being cautious about sharing personal information</li>
+                    <li>Reporting suspicious activity immediately</li>
+                </ul>
+            </section>
+
+            <section id="rights" class="section">
+                <h2>Your Privacy Rights</h2>
+                
+                <h3>Access and Control</h3>
+                <p>You have the right to:</p>
+                <ul>
+                    <li><strong>Access:</strong> Request a copy of your personal data</li>
+                    <li><strong>Correct:</strong> Update inaccurate or incomplete information</li>
+                    <li><strong>Delete:</strong> Request deletion of your personal data</li>
+                    <li><strong>Port:</strong> Receive your data in a machine-readable format</li>
+                    <li><strong>Object:</strong> Opt out of certain data processing activities</li>
+                </ul>
+
+                <h3>Accessibility Information Rights</h3>
+                <p>For disability and accessibility data, you have additional rights:</p>
+                <ul>
+                    <li>Complete control over what accessibility information to share</li>
+                    <li>Ability to modify or remove this information at any time</li>
+                    <li>Right to know specifically how this information is being used</li>
+                    <li>Option to request enhanced privacy protections</li>
+                </ul>
+
+                <h3>Marketing Communications</h3>
+                <p>You can opt out of:</p>
+                <ul>
+                    <li>Email newsletters and updates</li>
+                    <li>SMS notifications</li>
+                    <li>Push notifications</li>
+                    <li>Promotional communications</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>How to Exercise Your Rights:</strong>
+                    <p>Contact us through the methods below or use the privacy settings in your account. We'll respond to most requests within 30 days.</p>
+                </div>
+            </section>
+
+            <section id="data-retention" class="section">
+                <h2>Data Retention</h2>
+                
+                <h3>Active Accounts</h3>
+                <p>We retain your information while your account is active and as needed to provide services.</p>
+
+                <h3>Inactive Accounts</h3>
+                <p>After 2 years of inactivity, we may delete your account and associated data, with 60 days advance notice.</p>
+
+                <h3>Legal Requirements</h3>
+                <p>Some information may be retained longer to comply with legal obligations or resolve disputes.</p>
+
+                <h3>Sensitive Data</h3>
+                <p>Accessibility and disability information is deleted more quickly - typically within 30 days of account deletion unless you specifically request longer retention.</p>
+            </section>
+
+            <section id="international" class="section">
+                <h2>International Users</h2>
+                
+                <p>Inclove serves users globally. If you're located outside the United States, please note:</p>
+                <ul>
+                    <li>Your data may be transferred to and processed in the United States</li>
+                    <li>We comply with applicable data protection laws in your jurisdiction</li>
+                    <li>European users have additional rights under GDPR</li>
+                    <li>We maintain appropriate safeguards for international data transfers</li>
+                </ul>
+            </section>
+
+            <section id="children" class="section">
+                <h2>Children's Privacy</h2>
+                
+                <p>Inclove is designed for adults aged 18 and older. We do not knowingly collect personal information from anyone under 18. If we become aware that we have collected personal information from someone under 18, we will delete that information immediately.</p>
+            </section>
+
+            <section id="changes" class="section">
+                <h2>Policy Changes</h2>
+                
+                <p>We may update this Privacy Policy periodically. When we make significant changes:</p>
+                <ul>
+                    <li>We'll notify you by email or through the app</li>
+                    <li>We'll post the new policy with an updated "Last Modified" date</li>
+                    <li>We'll provide a summary of key changes</li>
+                    <li>For material changes, we may require re-acceptance</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- Contact Section -->
+        <div id="contact" class="contact-section">
+            <h2><i class="fas fa-envelope"></i> Contact Our Privacy Team</h2>
+            <p>Questions about privacy? We're here to help with accessible support options.</p>
+            
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email</h3>
+                    <p>privacy@inclove.com</p>
+                    <small>Response within 24 hours</small>
+                </div>
+                
+                <div class="contact-method">
+                    <i class="fas fa-phone"></i>
+                    <h3>Phone/TTY</h3>
+                    <p>1-800-INCLOVE</p>
+                    <small>Mon-Fri, 9AM-6PM EST</small>
+                </div>
+                
+                <div class="contact-method">
+                    <i class="fas fa-mail-bulk"></i>
+                    <h3>Mail</h3>
+                    <p>Inclove Privacy Team<br>123 Inclusive Way<br>Accessibility City, AC 12345</p>
+                </div>
+                
+                <div class="contact-method">
+                    <i class="fas fa-video"></i>
+                    <h3>Sign Language</h3>
+                    <p>ASL support available</p>
+                    <small>Schedule via email</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.toc-item').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add active state to navigation items based on scroll position
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.section');
+            const navItems = document.querySelectorAll('.toc-item');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                const sectionHeight = section.offsetHeight;
+                if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === '#' + current) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Keyboard navigation support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-nav');
+            }
+        });
+
+        // Announce page load for screen readers
+        window.addEventListener('load', function() {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.className = 'sr-only';
+            announcement.textContent = 'Inclove Privacy Policy page loaded. Use navigation links to jump to specific sections.';
+            document.body.appendChild(announcement);
+            
+            setTimeout(() => {
+                document.body.removeChild(announcement);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

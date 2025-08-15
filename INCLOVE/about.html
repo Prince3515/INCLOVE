@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Inclove - Our Story of Love & Inclusion</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="about.css">    
+</head>
+
+<body>
+    <div id="app">
+        <!-- Skip to main content -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+
+        <!-- Accessibility Menu -->
+        <div class="accessibility-menu">
+            <button class="accessibility-toggle" @click="toggleAccessibilityPanel"
+                :aria-expanded="accessibilityPanelOpen" aria-label="Open accessibility options"
+                title="Accessibility Options">
+                ♿
+            </button>
+
+            <div class="accessibility-panel" :class="{ active: accessibilityPanelOpen }">
+                <h3 style="margin-bottom: 15px; color: var(--text-dark);">Accessibility Options</h3>
+
+                <div class="accessibility-option">
+                    <label for="screen-reader">Screen Reader</label>
+                    <input type="checkbox" id="screen-reader" v-model="screenReaderEnabled"
+                        @change="toggleScreenReader">
+                </div>
+
+                <div class="accessibility-option">
+                    <label>Text Size</label>
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" @click="decreaseZoom" aria-label="Decrease text size">A-</button>
+                        <button class="zoom-btn" @click="resetZoom" aria-label="Reset text size">A</button>
+                        <button class="zoom-btn" @click="increaseZoom" aria-label="Increase text size">A+</button>
+                    </div>
+                </div>
+
+                <div class="accessibility-option">
+                    <label for="high-contrast">High Contrast</label>
+                    <input type="checkbox" id="high-contrast" v-model="highContrastEnabled"
+                        @change="toggleHighContrast">
+                </div>
+
+                <div class="accessibility-option">
+                    <label for="color-blind">Color Blind Friendly</label>
+                    <input type="checkbox" id="color-blind" v-model="colorBlindEnabled" @change="toggleColorBlind">
+                </div>
+
+                <div class="accessibility-option">
+                    <label for="reduce-motion">Reduce Motion</label>
+                    <input type="checkbox" id="reduce-motion" v-model="reduceMotionEnabled"
+                        @change="toggleReduceMotion">
+                </div>
+            </div>
+        </div>
+
+        <!-- Hearts Background -->
+        <div class="hearts-container" v-if="!reduceMotionEnabled">
+            <div v-for="heart in hearts" :key="heart.id" class="heart" :style="heart.style">
+                {{ heart.emoji }}
+            </div>
+        </div>
+
+        <header>
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <h1 class="logo">Inclove</h1>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sign up.html">Join</a></li>
+                    <li><a href="about.html" class="active" aria-current="page">About</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main id="main-content" class="about-container" role="main">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <h1>Our Story of Love & Inclusion 💖</h1>
+                <p class="hero-tagline">"Where every heart finds its home, and every soul discovers its match"</p>
+            </section>
+
+            <!-- Mission Section -->
+            <section class="content-section mission-section">
+                <h2>🌟 About Inclove</h2>
+                <p>Inclove isn't just another dating platform—it's a revolution of the heart. Born from the belief that
+                    love knows no boundaries, we've created a sanctuary where differently-abled individuals and their
+                    allies can find genuine connections that transcend physical limitations.</p>
+
+                <div class="stats-container">
+                    <div class="stat-card" tabindex="0">
+                        <span class="stat-number">1st</span>
+                        <span class="stat-label">Inclusive Dating Platform in India</span>
+                    </div>
+                    <div class="stat-card" tabindex="0">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Built with Love & Empathy</span>
+                    </div>
+                    <div class="stat-card" tabindex="0">
+                        <span class="stat-number">∞</span>
+                        <span class="stat-label">Possibilities for Connection</span>
+                    </div>
+                </div>
+
+                <p>We understand that finding love can feel overwhelming when society often overlooks the
+                    differently-abled community. That's why every feature, every interaction, and every moment on
+                    Inclove is designed with accessibility, respect, and genuine human connection at its core.</p>
+            </section>
+
+            <!-- Team Section -->
+            <section class="content-section team-section">
+                <h2>👥 Meet Our Amazing Team</h2>
+                <p>Behind Inclove is a passionate team of developers and designers who believe in the power of inclusive
+                    technology to bring people together.</p>
+
+                <div class="team-grid">
+                    <div class="team-member" tabindex="0">
+                        <h3>Prince Kumar Jha</h3>
+                        <div class="team-role">Frontend Developer & Founder</div>
+                        <p>A 20-year-old dreamer from INDIA who believes technology can make love
+                            accessible to everyone. Leading the frontend development with passion and dedication.</p>
+                    </div>
+                    <div class="team-member" tabindex="0">
+                        <h3>William Colton</h3>
+                        <div class="team-role">Backend Developer</div>
+                        <p>Expert backend developer from CHINA ensuring our platform runs smoothly and securely. William brings
+                            years of experience in building scalable, accessible web applications.</p>
+                    </div>
+                    <div class="team-member" tabindex="0">
+                        <h3>Louise Irene</h3>
+                        <div class="team-role">Backend Developer</div>
+                        <p>Talented backend developer from USA focused on creating robust systems that support our mission of
+                            inclusive love. Louise specializes in database optimization and API development.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vision Section -->
+            <section class="content-section vision-section">
+                <h2>🌈 Our Vision for Tomorrow</h2>
+                <p>We envision a world where love transcends all boundaries and every person has the opportunity to find
+                    meaningful connections.</p>
+
+                <div class="inspirational-quote">
+                    "In a world where you can be anything, be the reason someone believes in love again." ✨
+                </div>
+
+                <p><strong>This is just the beginning.</strong> As we learn and grow, Inclove will evolve too. New
+                    features, better accessibility, more ways to connect—all driven by your feedback and our commitment
+                    to making this the most loving corner of the internet.</p>
+            </section>
+
+            <!-- Call to Action -->
+            <section class="content-section"
+                style="text-align: center; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);">
+                <h2>💌 Join Our Love Revolution</h2>
+                <p>Whether you're differently-abled, an ally, a supporter, or just someone who believes in inclusive
+                    love—you belong here. Together, we're proving that the best connections happen when we embrace our
+                    differences and celebrate our shared humanity.</p>
+
+                <div style="margin: 2rem 0;">
+                    <p style="font-size: 1.2rem; color: #667eea; font-weight: 600;">Ready to be part of something
+                        beautiful?</p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer" role="contentinfo">
+            <p>💌 Reach out:
+                <a href="mailto:princeo51jha@gmail.com">princeo51jha@gmail.com</a> |
+                <a href="https://www.linkedin.com">Connect on LinkedIn</a> |
+                <a href="https://www.reddit.com">Join our Reddit Community</a>
+            </p>
+            <p style="margin-top: 1rem; opacity: 0.8;">© 2025 Inclove - Made with 💖, lots of ☕, and endless hope by
+                Prince Kumar Jha & Team</p>
+        </footer>
+    </div>
+
+    
+    <script src="about.js"></script>
+</body>
+
+</html>

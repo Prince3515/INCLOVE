@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - Inclove</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #e91e63;
+            --primary-light: #f8bbd9;
+            --secondary-color: #673ab7;
+            --accent-color: #ff5722;
+            --background: #fafafa;
+            --surface: #ffffff;
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --border: #e0e0e0;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--primary-light) 0%, #f3e5f5 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(233, 30, 99, 0.1);
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .last-updated {
+            background: var(--primary-light);
+            padding: 12px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .content-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+        }
+
+        .table-of-contents {
+            background: linear-gradient(135deg, var(--primary-light), #e8f5e8);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .table-of-contents h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .toc-list {
+            list-style: none;
+            display: grid;
+            gap: 8px;
+        }
+
+        .toc-item {
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .toc-item:hover {
+            background: rgba(233, 30, 99, 0.1);
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 25px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h3 {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            margin: 25px 0 15px 0;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        .section ul, .section ol {
+            margin: 15px 0 15px 25px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+            line-height: 1.7;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff3e0, #f3e5f5);
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h4 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .accessibility-note {
+            background: linear-gradient(135deg, #e8f5e8, #f0f4ff);
+            border: 2px solid var(--success);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .accessibility-note h4 {
+            color: var(--success);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fff8e1, #ffebee);
+            border: 2px solid var(--warning);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .warning-box h4 {
+            color: var(--warning);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .contact-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .content-card {
+                padding: 20px;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+
+            .toc-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .toc-item:focus,
+        button:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <!-- Header Section -->
+            <header class="header">
+                <h1>Terms of Service</h1>
+                <p class="subtitle">Inclove - Inclusive Dating for Everyone</p>
+                <div class="last-updated">
+                    Last Updated: {{ lastUpdated }}
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <div class="content-card">
+                <!-- Table of Contents -->
+                <nav class="table-of-contents">
+                    <h3>📋 Table of Contents</h3>
+                    <ul class="toc-list">
+                        <li class="toc-item" @click="scrollToSection('acceptance')" tabindex="0" role="button">
+                            1. Acceptance of Terms
+                        </li>
+                        <li class="toc-item" @click="scrollToSection('about')" tabindex="0" role="button">
+                            2. About Inclove
+                        </li>
+                        <li class="toc-item" @click="scrollToSection('eligibility')" tabindex="0" role="button">
+                            3. Eligibility and Account Registration
+                        </li>
+                        <li class="toc-item" @click="scrollToSection('user-conduct')" tabindex="0" role="button">
+                            4. User Conduct and Community Guidelines
+                        </li>
+                        <li class="toc-item" @click="scrollToSection('accessibility')" tabindex="0" role="button">
+                            5. Accessibility and Inclusion
+                        </li>
+                        <li class="toc-item" @click="scrollToSection('privacy')" tabindex="0" role="button">
+                            6. Privacy and Data Protection
+                        </li>
+                        <li class="toc-item" @click="scrollToSection('safety')" tabindex="0" role="button">
+                            7. Safety and Security
+                        </li>
+                        <li class="toc-item" @click="scrollToSection('content')" tabindex="0" role="button">
+                            8. Content and Intellectual Property
+                        </li>
+                        <li class="toc-item" @click="scrollToSection('payment')" tabindex="0" role="button">
+                            9. Payment and Subscriptions
+                        </li>
+                        <li class="toc-item" @click="scrollToSection('termination')" tabindex="0" role="button">
+                            10. Account Termination
+                        </li>
+                        <li class="toc-item" @click="scrollToSection('disclaimers')" tabindex="0" role="button">
+                            11. Disclaimers and Limitations
+                        </li>
+                        <li class="toc-item" @click="scrollToSection('changes')" tabindex="0" role="button">
+                            12. Changes to Terms
+                        </li>
+                        <li class="toc-item" @click="scrollToSection('contact')" tabindex="0" role="button">
+                            13. Contact Information
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Section 1: Acceptance of Terms -->
+                <section id="acceptance" class="section">
+                    <h2>🤝 1. Acceptance of Terms</h2>
+                    <p>Welcome to Inclove! By accessing or using our dating platform, you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use our service.</p>
+                    <p>These Terms constitute a legally binding agreement between you and Inclove. Your use of the service indicates your acceptance of these Terms and our Privacy Policy.</p>
+                </section>
+
+                <!-- Section 2: About Inclove -->
+                <section id="about" class="section">
+                    <h2>💜 2. About Inclove</h2>
+                    <p>Inclove is an inclusive dating platform designed to create meaningful connections for people of all abilities. While we specialize in serving the disability community, our platform welcomes everyone seeking genuine relationships.</p>
+                    
+                    <div class="accessibility-note">
+                        <h4>🌟 Our Mission</h4>
+                        <p>We believe that love knows no boundaries. Our platform is built with accessibility at its core, ensuring that everyone can participate fully in the online dating experience, regardless of their physical, cognitive, or sensory abilities.</p>
+                    </div>
+
+                    <h3>Key Features:</h3>
+                    <ul>
+                        <li>Accessibility-first design with screen reader compatibility</li>
+                        <li>Customizable interface options for various needs</li>
+                        <li>Inclusive matching algorithms</li>
+                        <li>Community support and resources</li>
+                        <li>Safety-focused environment</li>
+                    </ul>
+                </section>
+
+                <!-- Section 3: Eligibility -->
+                <section id="eligibility" class="section">
+                    <h2>👤 3. Eligibility and Account Registration</h2>
+                    
+                    <h3>Age Requirements</h3>
+                    <p>You must be at least 18 years old to use Inclove. By using our service, you represent and warrant that you meet this age requirement.</p>
+
+                    <h3>Account Creation</h3>
+                    <p>To create an account, you must:</p>
+                    <ul>
+                        <li>Provide accurate, complete, and current information</li>
+                        <li>Maintain the security of your account credentials</li>
+                        <li>Promptly update any changes to your information</li>
+                        <li>Not create multiple accounts</li>
+                        <li>Not share your account with others</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <h4>Identity Verification</h4>
+                        <p>For the safety and security of our community, we may require identity verification. This helps us maintain a trustworthy environment for all users.</p>
+                    </div>
+                </section>
+
+                <!-- Section 4: User Conduct -->
+                <section id="user-conduct" class="section">
+                    <h2>⚖️ 4. User Conduct and Community Guidelines</h2>
+                    
+                    <h3>Acceptable Use</h3>
+                    <p>You agree to use Inclove respectfully and responsibly. Our community thrives on mutual respect, understanding, and acceptance.</p>
+
+                    <h3>Prohibited Conduct</h3>
+                    <p>The following behaviors are strictly prohibited:</p>
+                    <ul>
+                        <li>Harassment, bullying, or intimidation of any kind</li>
+                        <li>Discrimination based on disability, race, gender, religion, or any other protected characteristic</li>
+                        <li>Posting false, misleading, or deceptive information</li>
+                        <li>Using the service for commercial purposes without permission</li>
+                        <li>Attempting to access other users' accounts</li>
+                        <li>Sharing explicit content without consent</li>
+                        <li>Spam, phishing, or fraudulent activities</li>
+                        <li>Impersonating others</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Zero Tolerance Policy</h4>
+                        <p>We have zero tolerance for ableism, discrimination, or any form of harassment. Violations may result in immediate account suspension or termination.</p>
+                    </div>
+                </section>
+
+                <!-- Section 5: Accessibility -->
+                <section id="accessibility" class="section">
+                    <h2>♿ 5. Accessibility and Inclusion</h2>
+                    
+                    <div class="accessibility-note">
+                        <h4>🔧 Our Commitment</h4>
+                        <p>Inclove is committed to providing an accessible platform that meets or exceeds WCAG 2.1 AA guidelines. We continuously work to improve our accessibility features.</p>
+                    </div>
+
+                    <h3>Accessibility Features</h3>
+                    <ul>
+                        <li>Screen reader compatibility</li>
+                        <li>Keyboard navigation support</li>
+                        <li>High contrast mode options</li>
+                        <li>Adjustable text sizes</li>
+                        <li>Voice-to-text capabilities</li>
+                        <li>Alternative text for images</li>
+                        <li>Closed captioning for video content</li>
+                    </ul>
+
+                    <h3>Feedback and Improvements</h3>
+                    <p>We welcome feedback about accessibility barriers. If you encounter any issues or have suggestions for improvements, please contact our accessibility team at accessibility@inclove.com.</p>
+                </section>
+
+                <!-- Section 6: Privacy -->
+                <section id="privacy" class="section">
+                    <h2>🔐 6. Privacy and Data Protection</h2>
+                    <p>Your privacy is paramount to us. We collect, use, and protect your personal information in accordance with our Privacy Policy and applicable data protection laws.</p>
+
+                    <h3>Information We Collect</h3>
+                    <ul>
+                        <li>Profile information you provide</li>
+                        <li>Communication and interaction data</li>
+                        <li>Technical information about your device and usage</li>
+                        <li>Location data (if you choose to share it)</li>
+                    </ul>
+
+                    <h3>Data Protection Rights</h3>
+                    <p>You have the right to:</p>
+                    <ul>
+                        <li>Access your personal data</li>
+                        <li>Correct inaccurate information</li>
+                        <li>Delete your account and associated data</li>
+                        <li>Export your data</li>
+                        <li>Opt out of certain data processing activities</li>
+                    </ul>
+                </section>
+
+                <!-- Section 7: Safety -->
+                <section id="safety" class="section">
+                    <h2>🛡️ 7. Safety and Security</h2>
+                    
+                    <h3>Safety Features</h3>
+                    <ul>
+                        <li>Profile verification system</li>
+                        <li>Blocking and reporting tools</li>
+                        <li>Photo verification</li>
+                        <li>Safety tips and resources</li>
+                        <li>24/7 moderation team</li>
+                    </ul>
+
+                    <h3>Reporting System</h3>
+                    <p>If you encounter inappropriate behavior, harassment, or safety concerns, please report them immediately using our in-app reporting tools or by contacting safety@inclove.com.</p>
+
+                    <div class="highlight-box">
+                        <h4>Personal Safety Reminders</h4>
+                        <ul>
+                            <li>Meet in public places for first dates</li>
+                            <li>Inform friends or family about your plans</li>
+                            <li>Trust your instincts</li>
+                            <li>Never share financial information</li>
+                            <li>Report suspicious behavior immediately</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Section 8: Content -->
+                <section id="content" class="section">
+                    <h2>📝 8. Content and Intellectual Property</h2>
+                    
+                    <h3>User Content</h3>
+                    <p>You retain ownership of content you post on Inclove, but you grant us a license to use, display, and distribute your content within our platform for the purpose of providing our services.</p>
+
+                    <h3>Content Guidelines</h3>
+                    <ul>
+                        <li>Content must be appropriate and respectful</li>
+                        <li>No copyrighted material without permission</li>
+                        <li>No explicit or inappropriate images</li>
+                        <li>Content should accurately represent you</li>
+                        <li>Respect others' privacy and dignity</li>
+                    </ul>
+
+                    <h3>Inclove's Intellectual Property</h3>
+                    <p>All Inclove branding, features, and functionality are protected by intellectual property laws. Users may not copy, modify, or distribute our proprietary content without permission.</p>
+                </section>
+
+                <!-- Section 9: Payment -->
+                <section id="payment" class="section">
+                    <h2>💳 9. Payment and Subscriptions</h2>
+                    
+                    <h3>Premium Features</h3>
+                    <p>Inclove offers both free and premium subscription options. Premium features enhance your dating experience with additional tools and capabilities.</p>
+
+                    <h3>Billing and Refunds</h3>
+                    <ul>
+                        <li>Subscriptions auto-renew unless cancelled</li>
+                        <li>Payments are processed securely through trusted payment providers</li>
+                        <li>Refund requests are reviewed on a case-by-case basis</li>
+                        <li>You can cancel your subscription at any time</li>
+                    </ul>
+
+                    <h3>Free Services</h3>
+                    <p>We believe everyone deserves access to meaningful connections. Core features of Inclove remain free, ensuring accessibility for users of all economic backgrounds.</p>
+                </section>
+
+                <!-- Section 10: Termination -->
+                <section id="termination" class="section">
+                    <h2>🚪 10. Account Termination</h2>
+                    
+                    <h3>Voluntary Termination</h3>
+                    <p>You may delete your account at any time through your account settings. Upon deletion, your profile will be removed from public view immediately.</p>
+
+                    <h3>Involuntary Termination</h3>
+                    <p>We reserve the right to suspend or terminate accounts that violate these Terms, engage in harmful behavior, or compromise the safety of our community.</p>
+
+                    <h3>Data Retention</h3>
+                    <p>After account deletion, we may retain certain information for legal, safety, or operational purposes as outlined in our Privacy Policy.</p>
+                </section>
+
+                <!-- Section 11: Disclaimers -->
+                <section id="disclaimers" class="section">
+                    <h2>⚖️ 11. Disclaimers and Limitations</h2>
+                    
+                    <h3>Service Availability</h3>
+                    <p>While we strive for continuous service availability, we cannot guarantee uninterrupted access to Inclove. Maintenance, updates, or technical issues may cause temporary service disruptions.</p>
+
+                    <h3>User Interactions</h3>
+                    <p>Inclove facilitates connections but is not responsible for the actions, behavior, or statements of individual users. Users are responsible for their own safety and interactions.</p>
+
+                    <h3>Limitation of Liability</h3>
+                    <p>To the fullest extent permitted by law, Inclove's liability for any damages arising from your use of the service is limited to the amount you paid for premium services, if any.</p>
+                </section>
+
+                <!-- Section 12: Changes -->
+                <section id="changes" class="section">
+                    <h2>📋 12. Changes to Terms</h2>
+                    <p>We may update these Terms from time to time to reflect changes in our services, legal requirements, or business practices. Users will be notified of significant changes through:</p>
+                    <ul>
+                        <li>Email notifications to registered users</li>
+                        <li>In-app notifications</li>
+                        <li>Updates to this page with new "Last Updated" date</li>
+                    </ul>
+                    <p>Continued use of Inclove after changes indicates acceptance of the updated Terms.</p>
+                </section>
+
+                <!-- Section 13: Contact -->
+                <section id="contact" class="section">
+                    <h2>📞 13. Contact Information</h2>
+                    <p>For questions, concerns, or feedback regarding these Terms or our services, please contact us through the following channels:</p>
+                </section>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="contact-section">
+                <h3>Get in Touch</h3>
+                <p>Our team is here to help and support you</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <strong>General Support</strong><br>
+                        support@inclove.com<br>
+                        1-800-INCLOVE
+                    </div>
+                    <div class="contact-item">
+                        <strong>Safety Concerns</strong><br>
+                        safety@inclove.com<br>
+                        Available 24/7
+                    </div>
+                    <div class="contact-item">
+                        <strong>Accessibility</strong><br>
+                        accessibility@inclove.com<br>
+                        Mon-Fri 9AM-6PM PST
+                    </div>
+                    <div class="contact-item">
+                        <strong>Legal Matters</strong><br>
+                        legal@inclove.com<br>
+                        Mon-Fri 9AM-5PM PST
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll to Top Button -->
+        <button class="scroll-to-top" :class="{ visible: showScrollTop }" @click="scrollToTop" aria-label="Scroll to top">
+            ↑
+        </button>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    showScrollTop: false,
+                    lastUpdated: 'August 15, 2025'
+                };
+            },
+            methods: {
+                scrollToSection(sectionId) {
+                    const element = document.getElementById(sectionId);
+                    if (element) {
+                        element.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                },
+                scrollToTop() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                },
+                handleScroll() {
+                    this.showScrollTop = window.scrollY > 300;
+                }
+            },
+            mounted() {
+                window.addEventListener('scroll', this.handleScroll);
+                
+                // Add keyboard event listeners for table of contents
+                document.querySelectorAll('.toc-item').forEach(item => {
+                    item.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            item.click();
+                        }
+                    });
+                });
+            },
+            unmounted() {
+                window.removeEventListener('scroll', this.handleScroll);
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

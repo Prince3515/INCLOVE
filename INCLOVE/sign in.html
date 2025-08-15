@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Inclove - Your Journey to Connection Starts Here</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="sign in.css">
+</head>
+
+<body>
+    <div id="app">
+        <main class="container" role="main">
+            <div class="logo">
+                <a href="index.html">
+                    <h1>Inclove</h1>
+                </a>
+                <p>Where every heart finds its match</p>
+            </div>
+
+            <form @submit.prevent="handleSubmit" novalidate>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" v-model="formData.email" @input="handleInput" @focus="handleFocus"
+                        required aria-describedby="email-error" autocomplete="email" placeholder="Enter your email">
+                    <div id="email-error" class="sr-only" role="alert" aria-live="polite"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-container">
+                        <input :type="showPassword ? 'text' : 'password'" id="password" v-model="formData.password"
+                            @input="handleInput" @focus="handleFocus" required
+                            aria-describedby="password-error password-help" autocomplete="current-password"
+                            placeholder="Enter your password">
+                        <button type="button" class="show-password" @click="togglePassword" @focus="handleFocus"
+                            :aria-label="showPassword ? 'Hide password' : 'Show password'" tabindex="0">
+                            {{ showPassword ? 'Hide' : 'Show' }}
+                        </button>
+                    </div>
+                    <div id="password-error" class="sr-only" role="alert" aria-live="polite"></div>
+                    <div id="password-help" class="sr-only">Your password should be at least 8 characters long</div>
+                </div>
+
+                <div class="remember-forgot">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" v-model="formData.remember" @change="handleFocus">
+                        <label for="remember">Keep me signed in</label>
+                    </div>
+                    <a href="#" class="forgot-password" @click="handleFocus">Forgot your password?</a>
+                </div>
+
+                <button type="submit" class="login-btn" @focus="handleFocus"> <a href="explore.html">
+                    Sign In to Your Journey
+                </a><button>
+            </form>
+
+            <div class="divider">
+                <span>New to Inclove?</span>
+            </div>
+
+            <div class="signup-link">
+                Ready to start your story? <a href="sign up.html" @focus="handleFocus">Join our community today</a>
+            </div>
+
+            <div class="accessibility-note">
+                <strong>Accessibility First:</strong> We're committed to making love accessible to everyone. Need
+                assistance? Contact our support team anytime.
+            </div>
+        </main>
+
+        <!-- Accessibility Button -->
+        <button class="accessibility-button" @click="toggleAccessibilityPanel" @focus="handleFocus"
+            :class="{ active: accessibilitySettings.screenReader }" aria-label="Open accessibility settings"
+            title="Accessibility Settings">
+            ♿
+        </button>
+
+        <!-- Accessibility Panel -->
+        <div class="accessibility-panel" :class="{ visible: showAccessibilityPanel }">
+            <h3>Accessibility Settings</h3>
+
+            <div class="accessibility-option">
+                <label>Screen Reader</label>
+                <div class="toggle-switch" :class="{ active: accessibilitySettings.screenReader }"
+                    @click="toggleScreenReader" tabindex="0" @keypress="handleKeypress($event, 'screenReader')"
+                    role="switch" :aria-checked="accessibilitySettings.screenReader"></div>
+            </div>
+
+            <div class="accessibility-option">
+                <label>Pink Theme</label>
+                <div class="toggle-switch" :class="{ active: accessibilitySettings.pinkTheme }" @click="togglePinkTheme"
+                    tabindex="0" @keypress="handleKeypress($event, 'pinkTheme')" role="switch"
+                    :aria-checked="accessibilitySettings.pinkTheme"></div>
+            </div>
+
+            <div class="accessibility-option">
+                <label>High Contrast</label>
+                <div class="toggle-switch" :class="{ active: accessibilitySettings.highContrast }"
+                    @click="toggleHighContrast" tabindex="0" @keypress="handleKeypress($event, 'highContrast')"
+                    role="switch" :aria-checked="accessibilitySettings.highContrast"></div>
+            </div>
+        </div>
+
+        <!-- Screen reader announcements -->
+        <div id="announcements" class="sr-only" role="status" aria-live="polite" aria-atomic="true">
+            {{ announcement }}
+        </div>
+    </div>
+    <script src="sign in.js"></script>
+</body>
+
+</html>

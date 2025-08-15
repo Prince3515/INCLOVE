@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - IncLove</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
+    <link rel="stylesheet" href="setting.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <header class="header">
+                <h1 class="logo" tabindex="0">IncLove</h1>
+                <p class="subtitle">Inclusive Dating for Everyone - Settings</p>
+            </header>
+
+            <main class="settings-container">
+                <!-- Discovery Settings -->
+                <section class="settings-card">
+                    <h2 class="card-title">🔍 Discovery Settings</h2>
+
+                    <div class="form-group">
+                        <label class="form-label" for="discovery-mode">Discovery Mode</label>
+                        <select id="discovery-mode" class="form-control" v-model="settings.discoveryMode">
+                            <option value="active">Active - Show my profile</option>
+                            <option value="limited">Limited - Only show to liked profiles</option>
+                            <option value="hidden">Hidden - Don't show my profile</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="max-distance">Maximum Distance (km)</label>
+                        <input type="range" id="max-distance" min="1" max="500" v-model="settings.maxDistance"
+                            class="form-control">
+                        <span>{{ settings.maxDistance }} km</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Show me profiles that are</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" v-model="settings.showOnline"> Online now
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" v-model="settings.showRecentlyActive"> Recently active
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Location Settings -->
+                <section class="settings-card">
+                    <h2 class="card-title">📍 Location Settings</h2>
+
+                    <div class="form-group">
+                        <label class="form-label" for="current-location">Current Location</label>
+                        <input type="text" id="current-location" class="form-control" v-model="settings.location"
+                            placeholder="Enter your city">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" v-model="settings.globalDiscovery">
+                            Enable Global Discovery
+                        </label>
+                        <small>Allow discovery of profiles worldwide</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" v-model="settings.shareLocation">
+                            Share precise location
+                        </label>
+                        <small>Help others find you more accurately</small>
+                    </div>
+                </section>
+
+                <!-- Language Preferences -->
+                <section class="settings-card">
+                    <h2 class="card-title">🌐 Language Preferences</h2>
+
+                    <div class="form-group">
+                        <label class="form-label" for="primary-language">Primary Language</label>
+                        <select id="primary-language" class="form-control" v-model="settings.primaryLanguage">
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ar">Arabic</option>
+                            <option value="hi">Hindi</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Additional Languages</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item" v-for="lang in availableLanguages" :key="lang.code">
+                                <input type="checkbox" :value="lang.code" v-model="settings.additionalLanguages">
+                                {{ lang.name }}
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interested In -->
+                <section class="settings-card">
+                    <h2 class="card-title">💕 Interested In</h2>
+
+                    <div class="form-group">
+                        <label class="form-label">Looking For</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" v-model="settings.interestedIn.men"> Men
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" v-model="settings.interestedIn.women"> Women
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" v-model="settings.interestedIn.nonBinary"> Non-binary
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" v-model="settings.interestedIn.everyone"> Everyone
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Relationship Type</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" v-model="settings.relationshipType.casual"> Casual dating
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" v-model="settings.relationshipType.serious"> Serious relationship
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" v-model="settings.relationshipType.friendship"> Friendship
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" v-model="settings.relationshipType.marriage"> Marriage
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Age Range -->
+                <section class="settings-card">
+                    <h2 class="card-title">🎂 Age Preferences</h2>
+
+                    <div class="form-group">
+                        <label class="form-label">Age Range</label>
+                        <div class="range-input">
+                            <div>
+                                <label for="min-age">Min Age</label>
+                                <input type="number" id="min-age" min="18" max="99" v-model="settings.ageRange.min">
+                            </div>
+                            <span>to</span>
+                            <div>
+                                <label for="max-age">Max Age</label>
+                                <input type="number" id="max-age" min="18" max="99" v-model="settings.ageRange.max">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Blocked Contacts -->
+                <section class="settings-card">
+                    <h2 class="card-title">🚫 Blocked Contacts</h2>
+
+                    <div class="form-group">
+                        <label class="form-label" for="block-username">Block User by Username</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="block-username" class="form-control" v-model="newBlockedUser"
+                                placeholder="Enter username">
+                            <button class="btn btn-danger" @click="blockUser">Block</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Currently Blocked Users</label>
+                        <div class="blocked-users">
+                            <div v-for="user in settings.blockedUsers" :key="user" class="blocked-user-item">
+                                <span>{{ user }}</span>
+                                <button class="btn btn-secondary" @click="unblockUser(user)">Unblock</button>
+                            </div>
+                            <div v-if="settings.blockedUsers.length === 0"
+                                style="text-align: center; color: var(--text-secondary);">
+                                No blocked users
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Privacy & Safety -->
+                <section class="settings-card">
+                    <h2 class="card-title">🛡️ Privacy & Safety</h2>
+
+                    <div class="form-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" v-model="settings.hideLastSeen">
+                            Hide last seen status
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" v-model="settings.requireMutualMatch">
+                            Only allow messages from mutual matches
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" v-model="settings.hideProfile">
+                            Hide profile from search engines
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" v-model="settings.reportSafetyIssues">
+                            Auto-report safety issues
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Notifications -->
+                <section class="settings-card">
+                    <h2 class="card-title">🔔 Notification Preferences</h2>
+
+                    <div class="form-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" v-model="settings.notifications.matches">
+                            New matches
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" v-model="settings.notifications.messages">
+                            New messages
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" v-model="settings.notifications.likes">
+                            Profile likes
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" v-model="settings.notifications.email">
+                            Email notifications
+                        </label>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Save Section -->
+            <section class="save-section">
+                <button class="save-btn" @click="saveSettings">
+                    💾 Save All Settings
+                </button>
+                <p style="margin-top: 10px; color: var(--text-secondary);">
+                    Your settings are automatically saved when you make changes
+                </p>
+            </section>
+
+            <!-- Delete Account Section -->
+            <section class="delete-section">
+                <h2 class="delete-title">🗑️ Danger Zone</h2>
+                <p style="margin-bottom: 20px; font-size: 1.1rem;">
+                    Ready to say goodbye? We'll miss you! 😢
+                </p>
+
+                <div class="delete-warning">
+                    <strong>⚠️ Warning:</strong> Deleting your account will permanently remove all your matches,
+                    messages, and profile data. This action cannot be undone! Your future soulmate might be just one
+                    swipe away! 💔
+                </div>
+
+                <div v-if="!showDeleteConfirmation">
+                    <button class="delete-btn" @click="startDeleteProcess">
+                        💔 I Want to Delete My Account
+                    </button>
+                    <p style="margin-top: 10px; color: var(--text-secondary);">
+                        (Don't worry, we'll make you confirm this crazy decision!)
+                    </p>
+                </div>
+
+                <div v-if="showDeleteConfirmation">
+                    <div class="confirmation-step" :class="{ completed: deleteStep1Complete }">
+                        <h3>Step 1: Are you absolutely sure? 🤔</h3>
+                        <p>Type "I want to delete my account" below:</p>
+                        <input type="text" class="form-control" v-model="deleteConfirmText1"
+                            placeholder="Type the confirmation text" style="margin: 10px 0;">
+                        <p v-if="deleteStep1Complete" style="color: var(--success);">✅ Step 1 completed!</p>
+                    </div>
+
+                    <div class="confirmation-step" :class="{ completed: deleteStep2Complete }"
+                        v-if="deleteStep1Complete">
+                        <h3>Step 2: Last chance to reconsider! 🙏</h3>
+                        <p>We really don't want to see you go! Are you sure you won't miss:</p>
+                        <ul style="text-align: left; margin: 15px 0;">
+                            <li>💕 Finding your perfect match</li>
+                            <li>💬 Amazing conversations</li>
+                            <li>🎉 Fun date experiences</li>
+                            <li>❤️ The possibility of true love</li>
+                        </ul>
+                        <p>If you're really sure, type "GOODBYE INCLOVE" below:</p>
+                        <input type="text" class="form-control" v-model="deleteConfirmText2"
+                            placeholder="Type GOODBYE INCLOVE" style="margin: 10px 0;">
+                        <p v-if="deleteStep2Complete" style="color: var(--success);">✅ Confirmation complete (but we're
+                            still sad 😭)</p>
+                    </div>
+
+                    <div v-if="deleteStep2Complete" style="margin-top: 20px;">
+                        <a href="index.html"><button class="delete-btn" @click="finalDeleteAccount">
+                            💀 Yes, Delete My Account Forever
+                        </button></a>
+                        <button class="cancel-btn" @click="cancelDelete">
+                            ❤️ Actually, I'll Stay!
+                        </button>
+                        <p style="margin-top: 15px; color: var(--danger);">
+                            This is your final warning! Your account will be permanently deleted! 🚨
+                        </p>
+                    </div>
+
+                    <button v-if="!deleteStep2Complete" class="cancel-btn" @click="cancelDelete">
+                        🎉 Cancel (Smart Choice!)
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- Success Popup -->
+        <div class="popup-overlay" :class="{ show: showSuccessPopup }" @click="hideSuccessPopup"></div>
+        <div class="success-popup" :class="{ show: showSuccessPopup }">
+            <span class="checkmark">✅</span>
+            <h3>Settings Saved!</h3>
+            <p>Your preferences have been updated successfully.</p>
+        </div>
+
+        <!-- Toast Notification -->
+        <div class="toast" :class="{ show: showToast, error: toastType === 'error' }">
+            <span v-if="toastType === 'success'">✅</span>
+            <span v-if="toastType === 'error'">❌</span>
+            {{ toastMessage }}
+        </div>
+
+        <!-- Accessibility Panel -->
+        <div class="accessibility-panel">
+            <button class="accessibility-toggle" @click="toggleAccessibilityMenu"
+                aria-label="Open accessibility options">
+                ♿
+            </button>
+
+            <div class="accessibility-menu" :class="{ active: showAccessibilityMenu }">
+                <h3 style="margin-bottom: 15px; color: var(--primary-color);">Accessibility Options</h3>
+
+                <div class="accessibility-item">
+                    <label>Screen Reader</label>
+                    <div class="toggle-switch" :class="{ active: accessibility.screenReader }"
+                        @click="toggleScreenReader" role="switch" :aria-checked="accessibility.screenReader"
+                        tabindex="0"></div>
+                </div>
+
+                <div class="accessibility-item">
+                    <label>High Contrast</label>
+                    <div class="toggle-switch" :class="{ active: accessibility.highContrast }"
+                        @click="toggleHighContrast" role="switch" :aria-checked="accessibility.highContrast"
+                        tabindex="0"></div>
+                </div>
+
+                <div class="accessibility-item">
+                    <label>Color Blind Friendly</label>
+                    <div class="toggle-switch" :class="{ active: accessibility.colorBlindFriendly }"
+                        @click="toggleColorBlindFriendly" role="switch" :aria-checked="accessibility.colorBlindFriendly"
+                        tabindex="0"></div>
+                </div>
+
+                <div class="accessibility-item">
+                    <label>Zoom Level</label>
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" @click="zoomOut" aria-label="Zoom out">-</button>
+                        <span>{{ accessibility.zoomLevel }}%</span>
+                        <button class="zoom-btn" @click="zoomIn" aria-label="Zoom in">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen reader announcements -->
+        <div aria-live="polite" class="sr-only" id="announcements">{{ announcement }}</div>
+    </div>
+
+    <script src="setting.js"></script>
+</body>
+
+</html>

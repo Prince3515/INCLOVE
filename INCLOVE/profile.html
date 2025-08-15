@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inclove - Your Profile</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="profile.css">
+
+</head>
+
+<body>
+    <div id="app">
+        <!-- Header -->
+        <div class="container">
+            <header class="header">
+                <div class="logo">
+                    <span class="heart-icon">♥</span>
+                   <a href="explore.html">Inclove</a>
+                </div>
+                <nav class="nav-buttons">
+                    <button class="btn btn-secondary" @click="openEditModal" @mouseover="speak('Edit Profile')">
+                        ✏️ Edit Profile
+                    </button>
+                    <button class="btn btn-secondary" @click="openNotificationModal"
+                        @mouseover="speak('Notification Settings')">
+                        🔔 Notifications
+                    </button>
+                    <button class="btn btn-secondary" @click="hibernateAccount" @mouseover="speak('Hibernate Account')">
+                        😴 Hibernate
+                    </button>
+                    <a href="index.html">
+                        <button class="btn btn-primary" @click="logout" @mouseover="speak('Log Out')">
+                            🚪 Log Out
+                        </button>
+                    </a>
+                </nav>
+            </header>
+
+            <!-- Profile Section -->
+            <section class="profile-section">
+                <div class="profile-header">
+                    <div class="profile-pic-container">
+                        <img :src="profile.photo" alt="Profile Picture" class="profile-pic"
+                            @mouseover="speak('Profile picture of ' + profile.name)">
+                        <button class="profile-pic-upload" @click="triggerFileUpload"
+                            @mouseover="speak('Change profile picture')">
+                            📷
+                        </button>
+                        <input type="file" ref="fileInput" class="hidden-file-input" @change="handleFileUpload"
+                            accept="image/*">
+                    </div>
+                    <div class="profile-info">
+                        <h1 @mouseover="speak(profile.name)">{{ profile.name }}</h1>
+                        <div class="profile-badge" v-if="profile.isPremium"
+                            @mouseover="speak('Verified Premium Member')">
+                            ✨ Verified Premium Member
+                        </div>
+                        <p @mouseover="speak('Age ' + calculatedAge + ', located in ' + profile.location)">
+                            <strong>Age:</strong> {{ calculatedAge }} • <strong>Location:</strong> {{ profile.location
+                            }}
+                        </p>
+                        <p @mouseover="speak('Condition: ' + profile.condition)">
+                            <strong>My Journey:</strong> {{ profile.condition }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div>
+                        <h2 class="section-title" @mouseover="speak('About Me Section')">About Me</h2>
+                        <p @mouseover="speak(profile.bio)">{{ profile.bio }}</p>
+                    </div>
+
+                    <div>
+                        <h2 class="section-title" @mouseover="speak('My Interests')">My Interests</h2>
+                        <div class="interests-container">
+                            <span v-for="interest in profile.interests" :key="interest" class="interest-tag"
+                                @mouseover="speak('Interest: ' + interest)">
+                                {{ interest }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Premium Subscription -->
+            <section class="profile-section" v-if="!profile.isPremium">
+                <div class="subscription-card">
+                    <h2 @mouseover="speak('Unlock Your True Potential')">✨ Unlock Your True Potential</h2>
+                    <p @mouseover="speak('Stand out as a genuine, verified member of our community')">Stand out as a
+                        genuine, verified member of our community</p>
+                    <div class="price" @mouseover="speak('Only 3 dollars lifetime')">$3<small style="font-size: 0.4em;">
+                            LIFETIME</small></div>
+                    <p
+                        @mouseover="speak('Premium benefits include priority matching, verified badge, unlimited messages, and advanced privacy controls')">
+                        🌟 Priority matching algorithm<br>
+                        ✅ Verified member badge<br>
+                        💬 Unlimited messages<br>
+                        🔒 Advanced privacy controls
+                    </p>
+                    <button class="btn btn-success"
+                        style="margin-top: 20px; font-size: 1.2em; position: relative; z-index: 10;"
+                        @click="upgradeToPremium" @mouseover="speak('Become Premium Member')">
+                        Become Premium Member
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- Edit Profile Modal -->
+        <div class="modal" v-if="showEditModal" @click="closeEditModal">
+            <div class="modal-content" @click.stop>
+                <h2 class="section-title" @mouseover="speak('Edit Your Profile')">Edit Your Profile</h2>
+                <form @submit.prevent="saveProfile">
+                    <div class="form-group">
+                        <label class="form-label" @mouseover="speak('Name field')">Name</label>
+                        <input type="text" class="form-input" v-model="editProfile.name"
+                            @input="speakTyping('name', $event.target.value)" @focus="speak('Editing name field')"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" @mouseover="speak('Date of Birth field')">Date of Birth</label>
+                        <input type="date" class="form-input" v-model="editProfile.dateOfBirth"
+                            @input="speakTyping('date of birth', $event.target.value)"
+                            @focus="speak('Editing date of birth field')" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" @mouseover="speak('Location field')">Location</label>
+                        <input type="text" class="form-input" v-model="editProfile.location"
+                            @input="speakTyping('location', $event.target.value)"
+                            @focus="speak('Editing location field')" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" @mouseover="speak('About yourself')">About Yourself</label>
+                        <textarea class="form-textarea" v-model="editProfile.bio"
+                            @input="speakTyping('biography', $event.target.value)" @focus="speak('Editing biography')"
+                            placeholder="Tell us about your journey, your passions, and what makes you unique..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" @mouseover="speak('Interests field')">Interests</label>
+                        <input type="text" class="form-input" v-model="newInterest"
+                            @input="speakTyping('new interest', $event.target.value)" @keyup.enter="addInterest"
+                            placeholder="Type an interest and press Enter">
+                        <div class="interests-container" style="margin-top: 15px;">
+                            <span v-for="(interest, index) in editProfile.interests" :key="index" class="interest-tag">
+                                {{ interest }}
+                                <button type="button" class="interest-remove" @click="removeInterest(index)"
+                                    @mouseover="speak('Remove interest: ' + interest)">×</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 15px; justify-content: flex-end; margin-top: 30px;">
+                        <button type="button" class="btn btn-secondary" @click="closeEditModal"
+                            @mouseover="speak('Cancel editing')">Cancel</button>
+                        <button type="submit" class="btn btn-primary" @mouseover="speak('Save changes')">Save
+                            Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Notification Settings Modal -->
+        <div class="modal" v-if="showNotificationModal" @click="closeNotificationModal">
+            <div class="modal-content" @click.stop>
+                <h2 class="section-title" @mouseover="speak('Notification Settings')">Notification Preferences</h2>
+                <div class="checkbox-group">
+                    <input type="checkbox" class="checkbox" id="newMatches" v-model="notifications.newMatches"
+                        @change="speak(notifications.newMatches ? 'New matches notifications enabled' : 'New matches notifications disabled')">
+                    <label for="newMatches" @mouseover="speak('Toggle new matches notifications')">New Matches</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" class="checkbox" id="messages" v-model="notifications.messages"
+                        @change="speak(notifications.messages ? 'Message notifications enabled' : 'Message notifications disabled')">
+                    <label for="messages" @mouseover="speak('Toggle message notifications')">Messages</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" class="checkbox" id="profileViews" v-model="notifications.profileViews"
+                        @change="speak(notifications.profileViews ? 'Profile views notifications enabled' : 'Profile views notifications disabled')">
+                    <label for="profileViews" @mouseover="speak('Toggle profile views notifications')">Profile
+                        Views</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" class="checkbox" id="emailNotifications"
+                        v-model="notifications.emailNotifications"
+                        @change="speak(notifications.emailNotifications ? 'Email notifications enabled' : 'Email notifications disabled')">
+                    <label for="emailNotifications" @mouseover="speak('Toggle email notifications')">Email
+                        Notifications</label>
+                </div>
+                <div style="display: flex; gap: 15px; justify-content: flex-end; margin-top: 30px;">
+                    <button type="button" class="btn btn-secondary" @click="closeNotificationModal"
+                        @mouseover="speak('Cancel notification settings')">Cancel</button>
+                    <button type="button" class="btn btn-primary" @click="saveNotifications"
+                        @mouseover="speak('Save notification settings')">Save Settings</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accessibility Panel -->
+        <div class="accessibility-panel" v-if="showAccessibilityPanel">
+            <h3 @mouseover="speak('Accessibility Options')">♿ Accessibility</h3>
+
+            <div class="form-group">
+                <label class="form-label" @mouseover="speak('Zoom Level')">Zoom Level</label>
+                <select class="form-select" v-model="zoomLevel" @change="updateZoom">
+                    <option value="1" @mouseover="speak('Normal size')">Normal (100%)</option>
+                    <option value="2" @mouseover="speak('Large size')">Large (125%)</option>
+                    <option value="3" @mouseover="speak('Extra large size')">Extra Large (150%)</option>
+                </select>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" class="checkbox" id="screenReader" v-model="screenReaderEnabled"
+                    @change="toggleScreenReader">
+                <label for="screenReader" @mouseover="speak('Toggle screen reader')">Screen Reader</label>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" class="checkbox" id="highContrast" v-model="highContrastEnabled"
+                    @change="toggleHighContrast">
+                <label for="highContrast" @mouseover="speak('Toggle high contrast mode')">High Contrast</label>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" @mouseover="speak('Color blindness support')">Color Blindness Support</label>
+                <select class="form-select" v-model="colorBlindMode" @change="updateColorBlindMode">
+                    <option value="none" @mouseover="speak('No color blindness support')">None</option>
+                    <option value="deuteranopia" @mouseover="speak('Deuteranopia support')">Deuteranopia (Green-blind)
+                    </option>
+                    <option value="protanopia" @mouseover="speak('Protanopia support')">Protanopia (Red-blind)</option>
+                    <option value="tritanopia" @mouseover="speak('Tritanopia support')">Tritanopia (Blue-blind)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Accessibility Toggle Button -->
+        <button class="accessibility-toggle" @click="toggleAccessibilityPanel"
+            @mouseover="speak('Toggle accessibility panel')"
+            :title="showAccessibilityPanel ? 'Close accessibility panel' : 'Open accessibility panel'">
+            ♿
+        </button>
+
+        <!-- Notification Toast -->
+        <div class="notification" v-if="showNotification" @mouseover="speak(notificationMessage)">
+            {{ notificationMessage }}
+        </div>
+    </div>
+    <script src="profile.js"></script>
+
+</body>
+
+</html>

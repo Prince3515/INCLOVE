@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inclove - Inclusive Love</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="app">
+    <!-- Audio for welcome message -->
+    <audio src="voice.mp3"  ref="welcomeAudio" preload="auto">
+      
+        <!-- src="voice.mp3"
+        type="absolute"> -->
+    </audio>
+
+    <!-- Accessibility Panel -->
+    <div class="accessibility-panel" :class="{ open: accessibilityOpen }">
+      <h3>Accessibility Options</h3>
+
+      <div class="accessibility-option">
+        <label>Screen Reader Mode</label>
+        <div class="toggle-switch" :class="{ active: accessibility.screenReader }"
+          @click="toggleAccessibility('screenReader')" role="switch" :aria-checked="accessibility.screenReader"
+          tabindex="0" @keydown.enter="toggleAccessibility('screenReader')"
+          @keydown.space="toggleAccessibility('screenReader')"></div>
+      </div>
+
+      <div class="accessibility-option">
+        <label>High Contrast</label>
+        <div class="toggle-switch" :class="{ active: accessibility.highContrast }"
+          @click="toggleAccessibility('highContrast')" role="switch" :aria-checked="accessibility.highContrast"
+          tabindex="0" @keydown.enter="toggleAccessibility('highContrast')"
+          @keydown.space="toggleAccessibility('highContrast')"></div>
+      </div>
+
+      <div class="accessibility-option">
+        <label>Color Vision</label>
+        <select class="color-vision-select" v-model="accessibility.colorVision" @change="changeColorVision"
+          aria-label="Color vision filter">
+          <option value="normal">Normal Vision</option>
+          <option value="protanopia">Red-Blind (Protanopia)</option>
+          <option value="deuteranopia">Green-Blind (Deuteranopia)</option>
+          <option value="tritanopia">Blue-Blind (Tritanopia)</option>
+          <option value="monochrome">Monochrome</option>
+        </select>
+      </div>
+
+      <div class="accessibility-option">
+        <label>Zoom</label>
+        <div class="zoom-controls">
+          <button @click="zoomOut" class="zoom-btn" aria-label="Zoom out">-</button>
+          <span class="zoom-display">{{ zoom }}%</span>
+          <button @click="zoomIn" class="zoom-btn" aria-label="Zoom in">+</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="accessibility-toggle" @click="toggleAccessibilityPanel"
+      :aria-label="accessibilityOpen ? 'Close accessibility options' : 'Open accessibility options'"
+      title="Accessibility Options - Located at bottom right corner" aria-describedby="accessibility-description">
+      ♿
+    </button>
+
+    <div id="accessibility-description" class="sr-only">
+      Accessibility button located at bottom right corner of the screen. Click to open accessibility options including
+      screen reader mode, high contrast, color vision filters, and zoom controls.
+    </div>
+
+    <!-- Hearts Background -->
+    <div class="hearts-container" ref="heartsContainer" aria-hidden="true"></div>
+
+    <!-- Color Vision Filters -->
+    <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+      <defs>
+        <filter id="protanopia-filter">
+          <feColorMatrix type="matrix" values="0.567, 0.433, 0,     0, 0
+                                              0.558, 0.442, 0,     0, 0
+                                              0,     0.242, 0.758, 0, 0
+                                              0,     0,     0,     1, 0" />
+        </filter>
+        <filter id="deuteranopia-filter">
+          <feColorMatrix type="matrix" values="0.625, 0.375, 0,   0, 0
+                                              0.7,   0.3,   0,   0, 0
+                                              0,     0.3,   0.7, 0, 0
+                                              0,     0,     0,   1, 0" />
+        </filter>
+        <filter id="tritanopia-filter">
+          <feColorMatrix type="matrix" values="0.95, 0.05,  0,     0, 0
+                                              0,    0.433, 0.567, 0, 0
+                                              0,    0.475, 0.525, 0, 0
+                                              0,    0,     0,     1, 0" />
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <a href="index.html" class="logo">Inclove 💖</a>
+      <div class="nav-right">
+        <a href="index.html" @click.prevent="scrollToSection('home')">Home</a>
+        <a href="#" @click.prevent="scrollToSection('features')">Features</a>
+        <a href="about.html" >About</a>
+        <a href="#" @click.prevent="scrollToSection('community')">Community</a>
+        <a href="sign in.html">Login</a>
+        <a href="sign up.html">Signup</a>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <!-- Hero Section -->
+      <section class="hero-section" id="home">
+        <h1 class="hero-title">Welcome to Inclove 💖</h1>
+        <p class="hero-subtitle">Where meaningful connections blossom, no matter who you are.</p>
+
+        <div class="question-box">
+          <h2 class="question-title">Are you a <span class="highlight">disabled</span> person?</h2>
+          <div class="btn-group">
+            <a href="sign up.html" class="btn">Yes, I am</a>
+            <a href="sign up.html" class="btn">No, but I'd love to connect with someone who is</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="features-section" id="features">
+        <h2 class="section-title">What Makes Inclove Special</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <span class="feature-icon" role="img" aria-label="Wheelchair accessibility">♿</span>
+            <h3 class="feature-title">Full Accessibility</h3>
+            <p class="feature-description">
+              Built from the ground up with screen readers, keyboard navigation, high contrast modes, zoom
+              functionality, and color-blind friendly design.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <span class="feature-icon" role="img" aria-label="Robot AI">🤖</span>
+            <h3 class="feature-title">AI-Powered Matching</h3>
+            <p class="feature-description">
+              Our intelligent algorithm considers your unique needs, preferences, and accessibility requirements to find
+              perfect matches.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <span class="feature-icon" role="img" aria-label="Shield protection">🛡️</span>
+            <h3 class="feature-title">Safe & Verified</h3>
+            <p class="feature-description">
+              Every profile is verified with photo verification and identity checks. Report features and 24/7 moderation
+              keep you safe.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <span class="feature-icon" role="img" aria-label="Gift with heart">💝</span>
+            <h3 class="feature-title">Giving Back</h3>
+            <p class="feature-description">
+              We donate 10% of all subscription fees and donations directly to disability support organizations and
+              communities.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <span class="feature-icon" role="img" aria-label="Star community">🌟</span>
+            <h3 class="feature-title">Inclusive Community</h3>
+            <p class="feature-description">
+              Join a welcoming community that celebrates diversity, promotes understanding, and creates meaningful
+              connections.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <span class="feature-icon" role="img" aria-label="Speech bubble">💬</span>
+            <h3 class="feature-title">Adaptive Communication</h3>
+            <p class="feature-description">
+              Multiple communication options including text, voice messages, video calls, and sign language support.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Community Section -->
+      <section class="community-section" id="community">
+        <h2 class="section-title">Real Stories, Real Love</h2>
+        <div class="testimonial-grid">
+          <div class="testimonial-card">
+            <p class="testimonial-text">
+              "Inclove helped me find someone who truly understands my journey. The accessibility features made it so
+              easy to navigate and connect."
+            </p>
+            <p class="testimonial-author">- Sarah M.</p>
+          </div>
+
+          <div class="testimonial-card">
+            <p class="testimonial-text">
+              "As someone who wanted to learn more about the disabled community, Inclove provided a respectful platform
+              to make genuine connections."
+            </p>
+            <p class="testimonial-author">- James K.</p>
+          </div>
+
+          <div class="testimonial-card">
+            <p class="testimonial-text">
+              "The high contrast mode and screen reader compatibility made this the first dating app I could actually
+              use independently!"
+            </p>
+            <p class="testimonial-author">- Maria L.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pricing Section -->
+      <section class="pricing-section" id="pricing">
+        <h2 class="section-title">Stand Out (Optional)</h2>
+        <div class="pricing-card">
+          <h3 class="pricing-title">Lifetime Premium</h3>
+          <div class="pricing-amount">$3</div>
+          <div class="pricing-period">One-time payment</div>
+          <ul class="pricing-features">
+            <li>Priority matching algorithm</li>
+            <li>Advanced filters and preferences</li>
+            <li>See who liked your profile</li>
+            <li>Unlimited super likes</li>
+            <li>Profile boost feature</li>
+            <li>Ad-free experience</li>
+            <li>Premium badges</li>
+          </ul>
+          <button class="btn"
+            style="background: white; color: var(--primary-color); border: 3px solid var(--text-dark);">
+            Get Premium (Optional)
+          </button>
+          <p style="margin-top: 1rem; opacity: 0.9; font-size: 0.9rem; font-weight: 600;">
+            You can still use Inclove completely free forever!
+          </p>
+        </div>
+      </section>
+
+      <div class="kind-note">
+        ✨ Be kind. Be respectful. Everyone here is looking for love, just like you. ✨
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <h3 style="margin-bottom: 1rem; color: var(--text-light);">Connect With Us</h3>
+      <p style="margin-bottom: 2rem;">Contact us for support or suggestions:</p>
+      <div class="social-links">
+        <a href="https://www.reddit.com/r/inclove" aria-label="Visit our Reddit community">Reddit</a>
+        <a href="https://www.linkedin.com/company/inclove" aria-label="Connect on LinkedIn">LinkedIn</a>
+        <a href="mailto:princeo51jha@gmail.com" aria-label="Send us an email">Email Us</a>
+      </div>
+      <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 2rem; margin-top: 2rem;">
+        <p style="font-weight: 600;">© 2025 Inclove – Made with empathy and heart.</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">Building bridges, not barriers. Love knows no limits.</p>
+      </div>
+    </footer>
+
+    <!-- Donate Button -->
+    <a href="#" class="donate-btn" @click.prevent="openDonationModal" aria-label="Support Inclove with a donation">❤️
+      Donate</a>
+
+    <!-- Donation Modal -->
+    <div class="modal-overlay" :class="{ open: donationModalOpen }" @click="closeDonationModal" role="dialog"
+      aria-labelledby="donation-title" aria-modal="true">
+      <div class="modal-content" @click.stop>
+        <button class="close-btn" @click="closeDonationModal" aria-label="Close donation modal">&times;</button>
+        <h2 id="donation-title">Support Inclove 💝</h2>
+        <p style="margin: 1.5rem 0; font-weight: 500; color: var(--text-secondary);">
+          Your generous donation helps us create a more inclusive world where everyone can find love and meaningful
+          connections.
+        </p>
+        <div
+          style="background: rgba(214, 51, 132, 0.1); padding: 1.5rem; border-radius: 10px; margin: 1.5rem 0; border: 2px solid var(--primary-color);">
+          <strong style="color: var(--text-dark);">🤝 We donate 10% of all contributions directly to disability support
+            organizations and communities.</strong>
+        </div>
+        <button class="btn">Donate Now</button>
+      </div>
+    </div>
+  </div>
+  <script src="style.js"></script>
+</body>
+
+</html>

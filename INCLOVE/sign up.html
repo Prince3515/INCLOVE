@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Inclove - Where Every Heart Finds Its Match</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
+    <link rel="stylesheet" href="sign up.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Skip link for keyboard navigation -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+
+        <!-- Screen Reader Announcements -->
+        <div class="sr-announcement" aria-live="polite" aria-atomic="true">
+            {{ screenReaderMessage }}
+        </div>
+
+        <!-- Accessibility Toggle Button -->
+        <button class="accessibility-toggle" @click="toggleAccessibilityPanel"
+            :aria-expanded="showAccessibilityPanel.toString()" aria-controls="accessibility-panel"
+            aria-label="Toggle accessibility options" @mouseenter="announceElement('Accessibility options button')">
+            ♿
+        </button>
+
+        <!-- Accessibility Panel -->
+        <div class="accessibility-panel" :class="{ open: showAccessibilityPanel }" role="dialog"
+            aria-labelledby="accessibility-title">
+            <h3 id="accessibility-title">Accessibility Options</h3>
+
+            <div class="accessibility-option">
+                <label>Screen Reader Mode</label>
+                <div class="toggle-switch" :class="{ active: screenReaderActive }" @click="toggleScreenReader"
+                    role="switch" :aria-checked="screenReaderActive.toString()" tabindex="0"
+                    @keydown.enter="toggleScreenReader" @keydown.space="toggleScreenReader"
+                    aria-label="Toggle screen reader mode"></div>
+            </div>
+
+            <div class="accessibility-option">
+                <label>High Contrast</label>
+                <div class="toggle-switch" :class="{ active: currentTheme === 'high-contrast' }"
+                    @click="toggleHighContrast" role="switch"
+                    :aria-checked="(currentTheme === 'high-contrast').toString()" tabindex="0"
+                    @keydown.enter="toggleHighContrast" @keydown.space="toggleHighContrast"
+                    aria-label="Toggle high contrast mode"></div>
+            </div>
+
+            <div class="accessibility-option">
+                <label>Color Vision</label>
+                <select class="color-vision-select" v-model="currentTheme" @change="applyTheme"
+                    aria-label="Color vision filter">
+                    <option value="normal">Normal Vision</option>
+                    <option value="protanopia">Red-Blind (Protanopia)</option>
+                    <option value="deuteranopia">Green-Blind (Deuteranopia)</option>
+                    <option value="tritanopia">Blue-Blind (Tritanopia)</option>
+                    <option value="monochrome">Monochrome</option>
+                </select>
+            </div>
+
+            <div class="accessibility-option">
+                <label>Zoom</label>
+                <div class="zoom-controls">
+                    <button @click="zoomOut" class="zoom-btn" aria-label="Zoom out">-</button>
+                    <span class="zoom-display">{{ zoomLevel }}%</span>
+                    <button @click="zoomIn" class="zoom-btn" aria-label="Zoom in">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container" id="main-content" role="main">
+            <div class="logo">
+                <h1 @mouseenter="announceElement('Inclove - main heading')">Inclove</h1>
+                <p @mouseenter="announceElement('Where Every Heart Finds Its Match - tagline')">Where Every Heart Finds
+                    Its Match</p>
+            </div>
+
+            <div class="accessibility-note" @mouseenter="announceElement('Accessibility notice')">
+                <strong>Accessibility First:</strong> This site is designed with full accessibility support. Use screen
+                readers, keyboard navigation, or any assistive technology you prefer.
+            </div>
+
+
+
+            <form id="signupForm" @submit.prevent="submitForm" @mouseenter="announceElement('Sign up form')">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" required aria-describedby="firstNameHelp"
+                            v-model="formData.firstName"
+                            @focus="screenReaderActive ? announceElement('First name input field, required') : null"
+                            @input="announceTyping('firstName')">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" required v-model="formData.lastName"
+                            @focus="screenReaderActive ? announceElement('Last name input field, required') : null"
+                            @input="announceTyping('lastName')">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required aria-describedby="emailHelp"
+                        v-model="formData.email"
+                        @focus="screenReaderActive ? announceElement('Email address input field, required') : null"
+                        @input="announceTyping('email')">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" name="password" required minlength="8"
+                        aria-describedby="passwordHelp" v-model="formData.password"
+                        @focus="screenReaderActive ? announceElement('Password input field, required, minimum 8 characters') : null"
+                        @input="announceTyping('password')">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age">Age *</label>
+                        <input type="number" id="age" name="age" min="18" max="100" required v-model="formData.age"
+                            @focus="screenReaderActive ? announceElement('Age input field, required, between 18 and 100') : null"
+                            @input="announceTyping('age')">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender Identity</label>
+                        <select id="gender" name="gender" v-model="formData.gender"
+                            @focus="announceElement('Gender identity dropdown, optional')"
+                            @change="announceElement(`Selected: ${formData.gender || 'Prefer not to say'}`)">
+                            <option value="">Prefer not to say</option>
+                            <option value="woman">Woman</option>
+                            <option value="man">Man</option>
+                            <option value="non-binary">Non-binary</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">City/Location</label>
+                    <input type="text" id="location" name="location" placeholder="Where are you based?"
+                        v-model="formData.location"
+                        @focus="screenReaderActive ? announceElement('City or location input field, optional') : null"
+                        @input="announceTyping('location')">
+                </div>
+
+                <div class="form-group">
+                    <label for="interests">What are you looking for?</label>
+                    <select id="interests" name="interests" v-model="formData.interests"
+                        @focus="announceElement('What are you looking for dropdown')"
+                        @change="announceElement(`Selected: ${getInterestLabel(formData.interests)}`)">
+                        <option value="friendship">Friendship</option>
+                        <option value="dating">Dating</option>
+                        <option value="relationship">Long-term relationship</option>
+                        <option value="community">Community connection</option>
+                        <option value="all">Open to all connections</option>
+                    </select>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" name="terms" required v-model="formData.terms"
+                        @focus="announceElement('Terms and Privacy Policy checkbox, required')"
+                        @change="announceElement(formData.terms ? 'Terms accepted' : 'Terms not accepted')">
+                    <label for="terms">
+                        I agree to the <a href="terms and services.html" target="_blank"
+                            @focus="announceElement('Terms of Service link')">Terms of Service</a> and <a href="privacy policy.html"
+                            target="_blank" @focus="announceElement('Privacy Policy link')">Privacy Policy</a>. I
+                        understand that Inclove is committed to creating an
+                        inclusive, respectful environment for all users.
+                    </label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="newsletter" name="newsletter" v-model="formData.newsletter"
+                        @focus="announceElement('Newsletter subscription checkbox, optional')"
+                        @change="announceElement(formData.newsletter ? 'Newsletter subscription enabled' : 'Newsletter subscription disabled')">
+                    <label for="newsletter">
+                        I'd like to receive updates about new features and community events (optional)
+                    </label>
+                </div>
+
+               <button type="submit" class="btn-primary"
+                    @mouseenter="screenReaderActive ? announceElement('Create My Inclove Profile button') : null"
+                    :disabled="isSubmitting"> <a href="explore.html">
+                    Create My Inclove Profile
+                </a></button>
+            </form>
+
+            <div class="divider">
+                <span>or sign up with</span>
+            </div>
+
+            <div class="social-login">
+                <a href="#" class="social-btn" @focus="announceElement('Sign up with Facebook button')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877f2" aria-hidden="true">
+                        <path
+                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                    Facebook
+                </a>
+                <a href="#" class="social-btn" @focus="announceElement('Sign up with Google button')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#000" aria-hidden="true">
+                        <path
+                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                        <path
+                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                        <path
+                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                        <path
+                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                    </svg>
+                    Google
+                </a>
+            </div>
+
+            <div class="login-link">
+                Already have an account? <a href="sign in.html" @focus="announceElement('Sign in here link')">Sign in
+                    here</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="sign up.js"></script>
+</body>
+
+</html>

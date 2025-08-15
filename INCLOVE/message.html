@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IncLove - Messages</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="message.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="container" :class="{ 'high-contrast': settings.highContrast, 'dark-theme': settings.darkMode }">
+            <!-- Header -->
+            <header class="header">
+                <img :src="profilePic" :alt="currentUser.name + '\'s profile picture'" class="profile-pic"
+                    @click="goToProfile()" role="button" tabindex="0"
+                    :aria-label="'Click to view ' + currentUser.name + '\'s profile'">
+
+                <div class="profile-info">
+                    <h2>{{ currentUser.name }}</h2>
+                    <p>{{ currentUser.status }}</p>
+                    <div class="typing-indicator" :class="{ visible: isTyping }">{{ currentUser.name }} is typing...
+                    </div>
+                </div>
+            </header>
+
+            <!-- Messages Container -->
+            <main class="messages-container" ref="messagesContainer" role="main" aria-label="Chat messages">
+                <div v-for="message in messages" :key="message.id" :class="['message', message.type]">
+                    <div class="message-header">{{ message.sender }}</div>
+                    <div class="message-content">
+                        <p v-if="message.text">{{ message.text }}</p>
+                        <div v-if="message.media" class="media-content">
+                            <img v-if="message.media.type === 'image'" :src="message.media.url" :alt="message.media.alt"
+                                @click="openMediaViewer(message.media)" tabindex="0">
+                            <video v-if="message.media.type === 'video'" :src="message.media.url" controls>
+                            </video>
+                        </div>
+                    </div>
+                    <div class="message-time">{{ formatTime(message.timestamp) }}</div>
+                </div>
+            </main>
+
+            <!-- Input Container -->
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <div class="message-input-container">
+                        <button class="plus-button" @click="toggleAttachmentMenu()" :aria-expanded="showAttachmentMenu"
+                            aria-label="Attachment options">
+                            +
+                        </button>
+
+                        <!-- Attachment Menu -->
+                        <div class="attachment-menu" :class="{ open: showAttachmentMenu }" role="menu"
+                            aria-label="Attachment options">
+                            <div class="attachment-option" @click="triggerFileInput('photo')" role="menuitem"
+                                tabindex="0">
+                                <div class="attachment-icon">📷</div>
+                                <span>Photo</span>
+                            </div>
+                            <div class="attachment-option" @click="triggerFileInput('video')" role="menuitem"
+                                tabindex="0">
+                                <div class="attachment-icon">🎥</div>
+                                <span>Video</span>
+                            </div>
+                            <div class="attachment-option" @click="toggleVoiceNote()" role="menuitem" tabindex="0">
+                                <div class="attachment-icon">🎤</div>
+                                <span>{{ isRecording ? 'Stop Recording' : 'Voice Note' }}</span>
+                            </div>
+                        </div>
+
+                        <textarea v-model="messageText" ref="messageInput" class="message-input"
+                            placeholder="Type your message..." rows="1" aria-label="Message input"
+                            @keydown="handleKeyDown" @input="handleInput" @focus="hideAttachmentMenu"></textarea>
+                    </div>
+
+                    <!-- Emotion context picker -->
+                    <div class="emotion-picker" role="group" aria-label="Message emotion context">
+                        <button v-for="emotion in emotions" :key="emotion.label" class="emotion-btn"
+                            @click="addEmotion(emotion.emoji)" :aria-label="'Add ' + emotion.label + ' emotion'">
+                            {{ emotion.emoji }} {{ emotion.label }}
+                        </button>
+                    </div>
+                </div>
+
+                <button class="send-button" @click="sendMessage()" :disabled="!canSend" aria-label="Send message">
+                    <span class="send-icon">✈</span>
+                </button>
+
+                <!-- Hidden file inputs -->
+                <input type="file" ref="photoInput" class="file-input" accept="image/*"
+                    @change="handleFileUpload($event, 'photo')">
+                <input type="file" ref="videoInput" class="file-input" accept="video/*"
+                    @change="handleFileUpload($event, 'video')">
+            </div>
+        </div>
+
+        <!-- Accessibility Panel -->
+        <button class="accessibility-toggle" @click="toggleAccessibilityPanel()"
+            aria-label="Open accessibility options">
+            ♿
+        </button>
+
+        <div class="accessibility-panel" :class="{ open: showAccessibilityPanel }" role="dialog"
+            aria-label="Accessibility options">
+            <h3>Accessibility Options</h3>
+
+            <div class="accessibility-option">
+                <label for="screenReader">Screen Reader</label>
+                <label class="switch">
+                    <input type="checkbox" id="screenReader" v-model="settings.screenReader"
+                        @change="toggleScreenReader">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="accessibility-option">
+                <label for="highContrast">High Contrast</label>
+                <label class="switch">
+                    <input type="checkbox" id="highContrast" v-model="settings.highContrast">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="accessibility-option">
+                <label>Zoom Level</label>
+                <div class="zoom-controls">
+                    <button class="zoom-btn" @click="adjustZoom(-0.1)" aria-label="Zoom out">-</button>
+                    <span>{{ zoomDisplay }}%</span>
+                    <button class="zoom-btn" @click="adjustZoom(0.1)" aria-label="Zoom in">+</button>
+                </div>
+            </div>
+
+            <div class="accessibility-option">
+                <label for="colorBlind">Color Blind Support</label>
+                <select id="colorBlind" v-model="settings.colorBlindFilter" aria-label="Color blindness filter">
+                    <option value="none">None</option>
+                    <option value="deuteranopia">Deuteranopia</option>
+                    <option value="protanopia">Protanopia</option>
+                    <option value="tritanopia">Tritanopia</option>
+                </select>
+            </div>
+
+            <div class="accessibility-option">
+                <label for="darkMode">Dark Mode</label>
+                <label class="switch">
+                    <input type="checkbox" id="darkMode" v-model="settings.darkMode">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Screen reader announcements -->
+        <div id="announcements" class="sr-only" aria-live="polite" aria-atomic="true">{{ announcement }}</div>
+
+        <!-- SVG Filters for Color Blindness -->
+        <svg style="display: none;">
+            <defs>
+                <filter id="deuteranopia-filter">
+                    <feColorMatrix values="0.625 0.375 0   0 0
+                                           0.7   0.3   0   0 0
+                                           0     0.3   0.7 0 0
+                                           0     0     0   1 0" />
+                </filter>
+                <filter id="protanopia-filter">
+                    <feColorMatrix values="0.567 0.433 0     0 0
+                                           0.558 0.442 0     0 0
+                                           0     0.242 0.758 0 0
+                                           0     0     0     1 0" />
+                </filter>
+                <filter id="tritanopia-filter">
+                    <feColorMatrix values="0.95 0.05  0     0 0
+                                           0    0.433 0.567 0 0
+                                           0    0.475 0.525 0 0
+                                           0    0     0     1 0" />
+                </filter>
+            </defs>
+        </svg>
+    </div>
+
+    <script src="message.js"></script>
+</body>
+
+</html>
